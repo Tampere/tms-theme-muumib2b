@@ -1,0 +1,24 @@
+.content-columns {
+    &.has-background-orange {
+        .quotation-mark {
+            color: $color-white;
+        }
+    }
+
+    &__item {
+        .column {
+            @include from($desktop) {
+                padding-right: $theme-spacing-two !important;
+                padding-left: $theme-spacing-two !important;
+            }
+        }
+    }
+
+    &__description {
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+        }
+    }
+}

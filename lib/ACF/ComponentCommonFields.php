@@ -1,0 +1,163 @@
+<?php
+namespace TMS\Theme\MuumiB2B\ACF;
+
+use Geniem\ACF\Field;
+
+/**
+ * Class ComponentCommonFields
+ *
+ * Adds shared fields to all ACF flexible component layouts.
+ */
+class ComponentCommonFields {
+
+    /**
+     * ComponentCommonFields constructor.
+     */
+    public function __construct() {
+        \add_filter(
+            'tms/acf/layout/common/fields',
+            \Closure::fromCallable( [ $this, 'add_common_fields_filter' ] ),
+            10,
+            3
+        );
+    }
+
+    /**
+     * Filter callback wrapper.
+     *
+     * @param array  $fields   Existing layout fields.
+     * @param string $key      Full layout key.
+     * @param string $base_key Layout base key.
+     *
+     * @return array
+     */
+    public function add_common_fields_filter( array $fields, string $key, string $base_key ) : array {
+        return self::add_common_fields( $fields, $key, $base_key );
+    }
+
+    /**
+     * Add shared fields for all component layouts.
+     *
+     * @param array  $fields   Existing layout fields.
+     * @param string $key      Full layout key.
+     * @param string $base_key Layout base key.
+     *
+     * @return array
+     */
+    public static function add_common_fields( array $fields, string $key, string $base_key = '' ) : array {
+        $strings = [
+            'toggle'                  => [
+                'show' => 'Näytä lohkon asetukset',
+                'hide' => 'Piilota lohkon asetukset',
+            ],
+            'settings'                => [
+                'label' => 'Kentät',
+            ],
+            'background_color'        => [
+                'label'        => 'Taustaväri',
+                'instructions' => '',
+            ],
+            'before_background_color' => [
+                'label'        => 'Edellisen komponentin taustaväri',
+                'instructions' => 'Tätä väriä käytetään yhdistämään komponenttien välisien muotojen taustat.',
+            ],
+            'next_background_color'   => [
+                'label'        => 'Seuraavan komponentin taustaväri',
+                'instructions' => 'Tätä väriä käytetään yhdistämään komponenttien välisien muotojen taustat.',
+            ],
+            'shape_top'               => [
+                'label'        => 'Muoto yläreunaan',
+                'instructions' => 'Valitse muoto käytettäväksi komponentille',
+            ],
+            'shape_bottom'            => [
+                'label'        => 'Muoto alareunaan',
+                'instructions' => 'Valitse muoto käytettäväksi komponentille',
+            ],
+        ];
+
+        $background_color = ( new Field\Select( $strings['background_color']['label'] ) )
+            ->set_key( "{$key}_background_color" )
+            ->set_name( 'background_color' )
+            ->set_instructions( $strings['background_color']['instructions'] )
+            ->set_choices( \apply_filters( 'tms/acf/choices/background/has', [] ) )
+            ->set_default_value( 'has-background-white' );
+
+        $before_background_color = ( new Field\Select( $strings['before_background_color']['label'] ) )
+            ->set_key( "{$key}_before_background_color" )
+            ->set_name( 'before_background_color' )
+            ->set_instructions( $strings['before_background_color']['instructions'] )
+            ->set_wrapper_width( 50 )
+            ->set_choices( \apply_filters( 'tms/acf/choices/background/before', [] ) )
+            ->set_default_value( 'before-has-background-white' );
+
+        $next_background_color = ( new Field\Select( $strings['next_background_color']['label'] ) )
+            ->set_key( "{$key}_next_background_color" )
+            ->set_name( 'next_background_color' )
+            ->set_instructions( $strings['next_background_color']['instructions'] )
+            ->set_wrapper_width( 50 )
+            ->set_choices( \apply_filters( 'tms/acf/choices/background/next', [] ) )
+            ->set_default_value( 'next-has-background-white' );
+
+        $shape_top_field = ( new Field\Select( $strings['shape_top']['label'] ) )
+            ->set_key( "{$key}_shape_top" )
+            ->set_name( 'shape_top' )
+            ->set_instructions( $strings['shape_top']['instructions'] )
+            ->set_wrapper_width( 50 )
+            ->set_choices( [
+                'shape-none'                                             => 'Ei muotoa',
+                'border-shape border-shape--wave-top'                    => 'Leveä aalto',
+                'border-shape border-shape--wave-top-reverse'            => 'Leveä aalto käännettynä (korkea puoli vasemmalla)',
+                'border-shape border-shape--wave-top-character-reverse'  => 'Leveä aalto käännettynä ja Hahmo',
+            ] )
+            ->set_default_value( 'shape-none' );
+
+        $shape_bottom_field = ( new Field\Select( $strings['shape_bottom']['label'] ) )
+            ->set_key( "{$key}_shape_bottom" )
+            ->set_name( 'shape_bottom' )
+            ->set_instructions( $strings['shape_bottom']['instructions'] )
+            ->set_wrapper_width( 50 )
+            ->set_choices( [
+                'shape-none'                                          => 'Ei muotoa',
+                'border-shape border-shape--wave-bottom'              => 'Leveä aalto',
+                'border-shape border-shape--wave-bottom-reverse'      => 'Leveä aalto käännettynä (korkea puoli vasemmalla)',
+                'border-shape border-shape--sea-waves-bottom'         => 'Aallokko',
+                'border-shape border-shape--sea-waves-bottom-reverse' => 'Aallokko käännettynä',
+            ] )
+            ->set_default_value( 'shape-none' );
+
+        $toggle = ( new Field\PHP( $strings['toggle']['show'] ) )
+            ->set_key( "{$key}_toggle" )
+            ->set_name( 'toggle' )
+            ->set_wrapper_classes( 'no-label block-settings-toggle' )
+            ->hide_label()
+            ->run(
+                function() {
+
+                    echo '<button class="show-block-settings"><span class="text-show">Näytä komponentin asetukset</span><span class="text-hide">Piilota komponentin asetukset</span> <span class="arrow-down">&#9660;</span><span class="arrow-up">&#9650;</span></button>';
+                }
+            );
+
+        $field_group = ( new Field\Group( $strings['settings']['label'] ) )
+            ->set_key( "{$key}_common" )
+            ->set_name( 'common' )
+            ->set_wrapper_classes( 'toggleable-block-settings hidden seamless no-label has-background-light' )
+            ->hide_label();
+
+        $field_group->add_fields(
+            [
+                $background_color,
+                $before_background_color,
+                $shape_top_field,
+                $next_background_color,
+                $shape_bottom_field,
+            ]
+        );
+
+        return array_merge( $fields, [
+            $toggle,
+            $field_group,
+        ] );
+    }
+}
+
+( new ComponentCommonFields() );

@@ -1,0 +1,76 @@
+$wave-svg-with-bottom-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath d='M0,120 C70,102 230,64 420,60 C560,58 700,66 900,60 C1030,56 1120,42 1200,24 L1200,120 L0,120 Z' fill='%23000'/%3E%3Crect x='0' y='120' width='1200' height='80' fill='%23000'/%3E%3C/svg%3E");
+
+.layout-modularity {
+    padding-bottom: $theme-spacing-three !important;
+
+    &__inner {
+        margin-bottom: $theme-spacing-four;
+    }
+
+    &__items {
+        padding: $theme-spacing-two;
+        border-radius: 40px;
+        gap: $theme-spacing;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            padding: $theme-spacing;
+        }
+    }
+
+    &__buttons {
+        align-items: start;
+
+        @media (max-width: 768px) {
+            align-items: center;
+            order: 2;
+            flex-direction: row !important;
+            flex-wrap: wrap;
+            gap: $theme-spacing-half;
+            padding: 0;
+
+            .modularity-button-container {
+                width: calc(50% - $theme-spacing-quarter);
+
+                .modularity-button {
+                    font-size: $theme-spacing;
+                }
+            }
+        }
+
+        .modularity-button {
+            background-color: $color-muumi-blue;
+            border-color: $color-muumi-blue;
+            color: $color-white;
+            width: min(150px, 100%);
+        }
+    }
+
+    .shape-slot--top {
+        &::before {
+            background-color: $color-white;
+        }
+    }
+
+    .shape-slot--bottom {
+        bottom: 0;
+        height: 100%;
+
+        &.border-shape--wave-bottom {
+            &::after {
+                bottom: 0;
+                inset: 1px;
+                height: 100%;
+                background-color: var(--shape-next-bg, inherit);
+                pointer-events: none;
+                transform-origin: center;
+                mask-image: $wave-svg-with-bottom-fill;
+                mask-repeat: no-repeat;
+                mask-position: center bottom;
+                mask-size: 100% 50%;
+                z-index: -1;
+            }
+        }
+    }
+}

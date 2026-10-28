@@ -1,0 +1,37 @@
+.page-template-page-exhibition-three {
+    .hero + .content-columns {
+        overflow-x: clip;
+
+        .content-columns__item {
+            min-height: 600px;
+        }
+
+        .column.is-6-desktop > .image {
+            @media (min-width: 768px) and (max-width: 2000px) {
+                position: absolute;
+                right: -25%;
+                top: 0;
+                height: 100%;
+                max-width: 70%;
+
+                .image-shape--gentle {
+                    mask-size: 100% 100%;
+                }
+            }
+        }
+    }
+
+    .content-columns {
+        &.has-background-white {
+            .button {
+                &,
+                &:hover,
+                &:focus {
+                    background-color: $color-muumi-yellow !important;
+                    border-color: $color-muumi-yellow !important;
+                    color: $color-muumi-black !important;
+                }
+            }
+        }
+    }
+}

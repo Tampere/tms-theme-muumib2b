@@ -1,0 +1,76 @@
+.rolling-text {
+	overflow: hidden;
+	position: relative;
+    padding-bottom: $theme-spacing-six !important;
+
+    &__row {
+        overflow: visible;
+        white-space: nowrap;
+
+        &--right {
+            padding-bottom: $theme-spacing-two;
+        }
+    }
+
+    &__track {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        will-change: transform;
+    }
+
+    &__sequence {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        gap: $theme-spacing-two;
+        padding-right: $theme-spacing-two;
+    }
+
+    &__item {
+        flex: 0 0 auto;
+
+        p {
+            font-size: $size-6;
+            font-weight: $weight-bold;
+
+            @include from($tablet) {
+                font-size: $size-4;
+            }
+
+            @include from($fullhd) {
+                font-size: $size-3;
+            }
+        }
+    }
+
+    &__toggle {
+        position: absolute;
+        bottom: $theme-spacing;
+        right: $theme-spacing-two;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        .rolling-text__toggle-icon {
+            width: $theme-spacing-three;
+            height: $theme-spacing-three;
+        }
+
+        .rolling-text__toggle-icon--play {
+            display: none;
+        }
+    }
+
+    &.is-paused {
+        .rolling-text__toggle-icon--pause {
+            display: none;
+        }
+
+        .rolling-text__toggle-icon--play {
+            display: inline;
+        }
+    }
+}

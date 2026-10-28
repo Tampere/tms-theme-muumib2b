@@ -1,0 +1,53 @@
+{>"shared/base" /}
+
+{<content}
+    <main class="main-content" id="main-content">
+        {?Page.is_password_protected_page}
+            {>"views/page/page-password-hero" /}
+        {:else}
+            {?Page.hero_image}
+                {>"views/page/page-hero" /}
+            {/Page.hero_image}
+
+            {^Page.hero_image}
+                {^Page.has_hero_layout}
+                    <section class="section pb-0">
+                        <div class="container">
+                            <div class="columns">
+                                <div class="column is-10 is-offset-1">
+                                    <h1 class="entry__title mt-0 mb-8 has-line-height-tight has-text-centered ">
+                                        {@title /}
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {/Page.has_hero_layout}
+            {/Page.hero_image}
+
+            {?Page.has_content}
+                <section class="section pt-0">
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-10 is-offset-1">
+                                <div class="entry__content is-content-grid keep-vertical-spacing">
+                                    {@content /}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {/Page.has_content}
+
+            {>"ui/components" components=Page.components /}
+        {/Page.is_password_protected_page}
+    </main>
+
+    {^Page.is_password_protected_page}
+        {#Page}
+            {?post_siblings}
+                {>"ui/sibling-navigation" /}
+            {/post_siblings}
+        {/Page}
+    {/Page.is_password_protected_page}
+{/content}

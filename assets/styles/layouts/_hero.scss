@@ -1,0 +1,184 @@
+@mixin hero-height {
+    height: 31.25rem;
+
+    @include from($tablet) {
+        height: 29.411rem;
+    }
+
+    @include from($desktop) {
+        height: 43.7rem;
+        min-height: 60vh;
+    }
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+
+    .h1 {
+        font-size: 3rem !important;
+        margin-bottom: 2rem !important;
+
+        @include from($tablet) {
+            font-size: 4rem !important;
+        }
+
+        @include from($desktop) {
+            font-size: 5rem !important;
+        }
+    }
+
+    p {
+        font-weight: $weight-semibold;
+    }
+
+    .button {
+        .button-icon {
+            max-height: 35px;
+            max-width: 35px;
+            object-fit: contain;
+            object-position: center;
+
+            @include from($tablet) {
+                max-height: 45px;
+                max-width: 45px;
+            }
+        }
+    }
+
+    &.has-background-white {
+        color: $color-muumi-blue !important;
+
+        .button {
+            background-color: $color-muumi-bluegray !important;
+            border-color: $color-muumi-bluegray !important;
+            color: $color-muumi-black !important;
+        }
+    }
+
+    &.has-background-yellow {
+        .button {
+            background-color: transparent !important;
+            border-color: $color-muumi-black !important;
+            color: $color-muumi-black !important;
+        }
+    }
+
+    &__inner {
+        --hero-wavy-mask-ratio: 885 / 721;
+        width: 100%;
+
+        img {
+            max-height: 900px;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+
+            &.objectfit-image-contain {
+                object-fit: contain !important;
+            }
+        }
+
+        .hero-image--rounded img {
+            mask-image: url('../images/vector-gentle-hero.svg');
+            mask-repeat: no-repeat;
+            mask-size: 100% 100%;
+            mask-position: top left;
+            width: 100%;
+        }
+
+        .hero-image--wavy img {
+            width: 100%;
+            height: auto;
+            max-height: none;
+            aspect-ratio: var(--hero-wavy-mask-ratio);
+            object-fit: cover;
+            object-position: center;
+            mask-image: url('../images/vector-wavy-hero.svg');
+            mask-repeat: no-repeat;
+            mask-size: 100% 100%;
+            mask-position: top right;
+        }
+
+        @media (max-width: 920px) {
+            .columns {
+                display: block;
+
+                > .column:first-child {
+                    text-align: center !important;
+                }
+            }
+        }
+    }
+
+    &__box {
+        max-width: 1000px;
+    }
+
+    &.has-full-bg {
+        position: relative;
+        color: $color-white !important;
+        padding: 10rem 4rem;
+
+        @include until($tablet) {
+            padding: 6rem 6rem 6rem 2rem;
+        }
+
+        @media (max-width: 400px) {
+            padding: 6rem 2rem !important;
+        }
+
+        .shape-slot--bottom {
+            &::before {
+                background-color: transparent;
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(
+                90deg,
+                rgba($color-black, 1) 0%,
+                rgba($color-black, 0.75) 65%,
+                rgba($color-black, 0) 100%
+            );
+
+            @include from($desktop) {
+                width: 66.6667%;
+            }
+
+            @media (max-width: 400px) {
+                background: linear-gradient(
+                    90deg,
+                    rgba($color-black, 1) 0%,
+                    rgba($color-black, 0.75) 100%
+                );
+            }
+        }
+
+        .hero__inner {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    &:not(.shape-none) {
+        padding-bottom: 8rem !important;
+    }
+}
+
+.page-template-page-front-page {
+    .hero {
+        .h1 {
+            @include from($desktop) {
+                font-size: 7rem !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,39 @@
+.layout-textblock {
+    &.is-content-left {
+        .textblock__inner {
+            margin: 0;
+        }
+    }
+
+    &.is-content-center {
+        .container {
+            display: flex;
+            justify-content: center;
+
+            .textblock__inner {
+                text-align: center;
+            }
+        }
+    }
+
+    .textblock__inner {
+        word-break: break-word;
+        padding: 0 $theme-spacing-three-quarters;
+
+        p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        &.is-align-wide {
+            @include from($tablet) {
+                width: 75%;
+            }
+        }
+
+        &.is-align-half {
+            @include from($tablet) {
+                width: 50%;
+            }
+        }
+    }
+}
